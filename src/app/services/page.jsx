@@ -51,6 +51,8 @@ const Services = () => {
                                     </Link>
                                 </div>
                                 <h2>{service.title}</h2>
+                                <p>{service.description}</p>
+                                <div className="border-b border-white/20 w-full" />
                             </div>
 
                         })
