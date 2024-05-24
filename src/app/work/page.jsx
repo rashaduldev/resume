@@ -8,6 +8,7 @@ import { BsArrowUpRight, BsGithub } from "react-icons/bs";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";  // Import Swiper styles
 import Image from "next/image";
+import Sliderbuttons from "@/components/Sliderbuttons";
 
 const projects = [
     {
@@ -16,7 +17,7 @@ const projects = [
         title: "project 1",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         stack: [{ name: "HTML5" }, { name: "CSS3" }, { name: "JavaScript" }],
-        image: "/images/project1.jpg",
+        image: "https://i.ibb.co/ChFHLJt/portfollio-img.png",
         live: "https://liveproject1.com",
         github: "https://github.com/user/project1",
     },
@@ -26,17 +27,19 @@ const projects = [
         title: "project 2",
         description: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         stack: [{ name: "Next.js" }, { name: "Tailwind CSS" }, { name: "Node.js" }],
-        image: "/images/project2.jpg",
+        image: "https://i.ibb.co/yXGHRy2/bistro-img.png",
         live: "https://liveproject2.com",
         github: "https://github.com/user/project2",
     },
+    
+   
     {
         num: "03",
-        category: "backend",
+        category: "resume",
         title: "project 3",
         description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
         stack: [{ name: "Next.js" }, { name: "Tailwind CSS" }],
-        image: "/images/project3.jpg",
+        image: "https://i.ibb.co/CHNB72r/resume-photo.png",
         live: "https://liveproject3.com",
         github: "https://github.com/user/project3",
     },
@@ -57,7 +60,7 @@ const WorkPage = () => {
                 opacity: 1, 
                 transition:{delay:2.4,duration:0.4,ease:"easeIn"}
             }}
-            className="min-h-[80vh] flex flex-col justify-center py-12 xl:px-0"
+            className="min-h-[75vh] flex flex-col justify-center py-12 xl:px-0"
         >
             <div className="container mx-auto">
                 <div className="flex flex-col xl:flex-row xl:gap-[30px]">
@@ -139,7 +142,13 @@ const WorkPage = () => {
                                    </div>
                                     </SwiperSlide>
                                 );
-                            })};
+                            })}
+                                                    {/* Slider btns */}
+                        <Sliderbuttons 
+                        containerStyles="flex gap-2 absolute right-0 bottom-[calc(50%_-_22px)] xl:bottom-0 z-20 w-full justify-between xl:w-max xl:justify-none"
+                        btnStyles="bg-accent hover:bg-accent-hover text-primary text-[22px] w-[44px] h-[44px] flex justify-center items-center transition-all"
+                        
+                        />
                         </Swiper>
                     </div>
                 </div>
