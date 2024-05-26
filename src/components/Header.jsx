@@ -24,8 +24,8 @@ const Header = () => {
                 {/* desktop nav amd hire me button  */}
                 <div className="hidden xl:flex items-center gap-8">
                 <Nav/>
-                 <Link href={'/contact'}>
-                 <Button>Hire me</Button>
+                 <Link href={'/login'}>
+                 <Button>Log in</Button>
                  </Link>   
                 </div>
 

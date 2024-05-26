@@ -7,25 +7,25 @@ const services = [
   {
     num: "01",
     title: "Web Development",
-    description: "Lorem ipsum dolor sit amet, consectetur adip   Lorem ipsum dolor sit amet, consectetur adip",
+    description: "Web Development expert designs, builds, and maintains websites, ensuring functionality, user experience, and performance. They possess strong coding skills and knowledge of web technologies.",
     href: ""
   },
   {
     num: "02",
-    title: "UI/UX Design",
-    description: "Lorem ipsum dolor sit amet, consectetur adip   Lorem ipsum dolor sit amet, consectetur adip",
+    title: "Wordpress Developer",
+    description: "WordPress Developer expert customizes and manages WordPress sites, creating themes and plugins, optimizing performance, and ensuring security while enhancing user experience and functionality.",
     href: ""
   },
   {
     num: "03",
-    title: "Logo Design",
-    description: "Lorem ipsum dolor sit amet, consectetur adip   Lorem ipsum dolor sit amet, consectetur adip",
+    title: "App Development",
+    description: "React Native App Developer specializes in building cross-platform mobile applications, utilizing React Native to create high-performance, responsive apps for both iOS and Android devices.",
     href: ""
   },
   {
     num: "04",
-    title: "SEO",
-    description: "Lorem ipsum dolor sit amet, consectetur adip   Lorem ipsum dolor sit amet, consectetur adip",
+    title: "Full-Stack",
+    description: "Full Stack Developer designs and manages both frontend and backend of web applications, ensuring seamless integration, performance, and user experience using various technologies and frameworks.",
     href: ""
   },
 ];
