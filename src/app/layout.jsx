@@ -18,13 +18,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="https://i.ibb.co/PNyYZ8w/logo-removebg-preview.png" />
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+      </head>
       <body className={jetbrainsMono.variable}>
-        <Header/>
-        <StairTransition/>
+        <Header />
+        <StairTransition />
         <PageTransition>
-        {children}
+          {children}
         </PageTransition>
-        </body>
+      </body>
     </html>
   );
 }
