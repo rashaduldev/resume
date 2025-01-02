@@ -52,7 +52,7 @@ const projects = [
         category: "Trade Ventures",
         title: "Trade Ventures",
         description: "A responsive frontend application built with Next.js and Tailwind CSS, designed for seamless user interaction and dynamic content management. The project offers a clean UI, fast performance, and optimized navigation for enhanced user experience. It includes modern design principles and responsive layouts, ensuring accessibility across all devices.",
-        stack: [{ name: "React.js" }, { name: "Tailwind CSS" }],
+        stack: [{ name: "Next.js" }, { name: "Tailwind CSS" }],
         image: trade,
         live: "https://trade-venture-roan.vercel.app",
         github: "https://github.com/rashaduldev/Trade-Venture",
