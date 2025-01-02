@@ -21,12 +21,12 @@ const Home = (props) => {
       <div className='container  mx-auto'>
           <div className='flex flex-col xl:flex-row items-center justify-between xl:pt-8 xl:pb-24'>
             <div className='text-center xl:text-left order-2 xl:order-none'>
-              <span className='text-xl'>Software Developer</span>
+              <span className='text-xl'>Junior Web Developer</span>
               <h1 className='h1 mb-6'>
                 hello I'm <br /> <span className='text-accent'>Rashadul Islam</span>
               </h1> 
               <p className="max-w-[500px] mb-9 text-white/80">
-              I am proficient in various programming languages and technologies and I excel at crafting elegant digital experiences
+              I’m a Junior Fullstack Web Developer who is passionate about making error-free websites with 100% client satisfaction. I have a passion for learning new technologies.
               </p>
                 {/* btn and socials */}
                 <div className="flex flex-col xl:flex-row items-center gap-8">
