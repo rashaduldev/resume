@@ -9,49 +9,53 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";  // Import Swiper styles
 import Image from "next/image";
 import Sliderbuttons from "@/components/Sliderbuttons";
+import learning from "../../../public/assets/learning.PNG";
+import ssl from "../../../public/assets/ssl.PNG";
+import travels from "../../../public/assets/travel.PNG";
+import trade from "../../../public/assets/trade.PNG";
 
 const projects = [
     {
         num: "01",
-        category: "frontend",
-        title: "project 1",
-        description: "A dynamic frontend project featuring responsive design, interactive elements, and seamless user experience, utilizing modern web technologies like HTML5, CSS3, and JavaScript for optimal performance and aesthetics.",
-        stack: [{ name: "HTML5" }, { name: "CSS3" }, { name: "Typescript" }],
-        image: "https://i.ibb.co/ChFHLJt/portfollio-img.png",
-        live: "https://rashadul-landing-page.vercel.app",
-        github: "https://github.com/rashaduldev/Landing-page-with-NEXT_JS",
+        category: "Learning Management System (LMS)",
+        title: "Learning Management",
+        description: "Learning Management System (LMS) This project is a dynamic, frontend-focused Learning Management System (LMS) designed to provide a seamless and engaging user experience. It is built with modern web technologies like HTML5, CSS3, JavaScript, and React. The system offers responsive design and interactive elements, enabling users to easily navigate through courses, track progress, and engage with educational content.",
+        stack: [{ name: "HTML5" }, { name: "CSS3" },{ name: "React" }, { name: "Javascript" }],
+        image: learning,
+        live: "https://learning.tripleibd.com",
+        github: "https://github.com/rashaduldev/Course-learning-Front-end",
     },
     {
         num: "02",
-        category: "fullstack",
-        title: "project 2",
-        description: "A fullstack CMS-based project built with Next.js, Tailwind CSS, and a headless CMS, offering dynamic content management, responsive design, and seamless user experience across devices.",
-        stack: [{ name: "Next.js" }, { name: "Tailwind CSS" }, { name: "Node.js" }],
-        image: "https://i.ibb.co/D5nC5tq/trade.png",
-        live: "https://trade-venture-roan.vercel.app",
-        github: "https://github.com/rashaduldev/Trade-Venture",
+        category: "SSL Garments System",
+        title: "SSL",
+        description: "The SSL Garments System (Frontend) is a dynamic and responsive web application designed to manage garment production processes. Developed using Next.js and Tailwind CSS, this frontend interface enables users to interact with the garment management system, track orders, view inventory, and manage production workflows. The application features a user-friendly design with a focus on performance, offering a seamless experience across various devices.",
+        stack: [{ name: "React.js" }, { name: "Tailwind CSS" }, { name: "Javascript" }],
+        image: ssl,
+        live: "https://stylorium.net",
+        github: "https://github.com/rashaduldev/ssl",
     },
     {
         num: "03",
-        category: "fullstack",
-        title: "project 2",
-        description: "A comprehensive fullstack project integrating a robust backend with a sleek, responsive frontend, utilizing technologies like Node.js, Express, MongoDB, and React to deliver a seamless, scalable web application.",
-        stack: [{ name: "React.js" }, { name: "Tailwind CSS" }, { name: "Node.js" }],
-        image: "https://i.ibb.co/yXGHRy2/bistro-img.png",
-        live: "https://sturdy-support.surge.sh/",
-        github: "https://github.com/rashaduldev/Bistro-Boss-Client",
+        category: "Tourisom & Travels",
+        title: "Tourisom & Travels",
+        description: "A full-stack web application built with the MERN stack (MongoDB, Express.js, React, Node.js), offering seamless booking, destination exploration, and user management. Features include dynamic tour packages, secure authentication, a user-friendly interface, and responsive design for an enhanced travel planning experience.",
+        stack: [{ name: "React" }, { name: "Tailwind" }, { name: "Node" },{ name: "Express" },{ name: "Mongodb" },{ name: "Firebase" }],
+        image: travels,
+        live: "https://tour-guide-theta.vercel.app",
+        github: "https://github.com/rashaduldev/Tourist-Guide-Client",
     },
     
    
     {
         num: "04",
-        category: "resume",
-        title: "project 3",
-        description: "Developed a sleek and modern personal portfolio website using Next.js and Tailwind CSS. The project showcases dynamic content, optimized performance, and responsive design, providing an engaging user experience across all devices. Features include an interactive gallery, blog section, and contact form, demonstrating proficiency in fullstack development and modern web technologies.",
+        category: "Trade Ventures",
+        title: "Trade Ventures",
+        description: "A responsive frontend application built with Next.js and Tailwind CSS, designed for seamless user interaction and dynamic content management. The project offers a clean UI, fast performance, and optimized navigation for enhanced user experience. It includes modern design principles and responsive layouts, ensuring accessibility across all devices.",
         stack: [{ name: "React.js" }, { name: "Tailwind CSS" }],
-        image: "https://i.ibb.co/CHNB72r/resume-photo.png",
-        live: "https://rashedul-follio.vercel.app/",
-        github: "https://github.com/rashaduldev/Portfollio",
+        image: trade,
+        live: "https://trade-venture-roan.vercel.app",
+        github: "https://github.com/rashaduldev/Trade-Venture",
     },
 ];
 
@@ -77,11 +81,11 @@ const WorkPage = () => {
                     <div className="w-full xl:w-[50%] xl:h-[460px] flex flex-col xl:justify-between order-2 xl:order-none">
                         <div className="flex flex-col gap-[30px] h-[50%]">
                             {/* Text outline */}
-                            <div className="text-8xl leading-none font-extrabold text-transparent text-outline">
+                            <div className="text-7xl leading-none font-extrabold text-transparent text-outline">
                                 {project.num}
                             </div>
                             {/* Project category */}
-                            <h2 className="text-[42px] font-bold leading-none text-white group-hover:text-accent transition-all duration-500 capitalize">
+                            <h2 className="text-[30px] font-bold leading-none text-white group-hover:text-accent transition-all duration-500 capitalize">
                                 {project.category}
                             </h2>
                             {/* Project description */}
@@ -102,7 +106,7 @@ const WorkPage = () => {
                                 <Link href={project.live} target="_blank" rel="noopener noreferrer">
                                     <TooltipProvider delayDuration={100}>
                                         <Tooltip>
-                                            <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
+                                            <TooltipTrigger className="w-[60px] h-[60px] rounded-full bg-white/5 flex justify-center items-center group">
                                                 <BsArrowUpRight className="text-white text-3xl group-hover:text-accent" />
                                             </TooltipTrigger>
                                             <TooltipContent>
@@ -115,7 +119,7 @@ const WorkPage = () => {
                                 <Link href={project.github} target="_blank" rel="noopener noreferrer">
                                     <TooltipProvider delayDuration={100}>
                                         <Tooltip>
-                                            <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
+                                            <TooltipTrigger className="w-[60px] h-[60px] rounded-full bg-white/5 flex justify-center items-center group">
                                                 <BsGithub className="text-white text-3xl group-hover:text-accent" />
                                             </TooltipTrigger>
                                             <TooltipContent>

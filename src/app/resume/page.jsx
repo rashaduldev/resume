@@ -3,8 +3,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { motion } from "framer-motion";
-import { FaCss3, FaFigma, FaHtml5, FaJs, FaNodeJs, FaReact } from "react-icons/fa";
-import { SiNextdotjs, SiTailwindcss } from "react-icons/si";
+import { FaCss3, FaFigma, FaHtml5, FaJs, FaNodeJs, FaReact, FaVuejs } from "react-icons/fa";
+import { SiExpress, SiMongoose, SiNextdotjs, SiTailwindcss, SiTypescript } from "react-icons/si";
+import { DiMongodb } from "react-icons/di";
 
 // About Data
 const about={
@@ -41,7 +42,7 @@ const about={
         },
         {
             fieldName:"Language",
-            fieldValue:"English,Bangla,Hindi"
+            fieldValue:"Bangla,English"
         },
     ]
 
@@ -53,33 +54,23 @@ const exprience={
     description:"Developed and maintained both front-end and back-end components of web applications using technologies such as JavaScript, React, Node.js, and Express.",
     items:[
         {
-            company:"UySystems",
-            position:"Full Stack Developer",
+            company:"UySystems ltd",
+            position:"Front-end Developer",
             duration:"2024-2024",
         },
         {
-            company:"UySystems",
-            position:"Full Stack Developer-Intern",
+            company:"UySystems ltd",
+            position:"Front-end Developer (Intern)",
             duration:"2023-2024",
         },
         {
-            company:"UyLab",
-            position:"Fornt-end Developer",
-            duration:"2022-2023",
-        },
-        {
-            company:"Web Development-PH Team",
-            position:"Junior Web Development",
-            duration:"2023-2023",
-        },
-        {
-            company:"Robi-AT",
+            company:"ShopUp Robi Dhanmondi Branch (Robi-AT)",
             position:"IT officer",
             duration:"2022-2023",
         },
         {
             company:"IIST",
-            position:"Web Development Level-4",
+            position:"Web Development Level-4 (Cource)",
             duration:"2020-2020",
         },
     ]
@@ -93,22 +84,22 @@ const education={
         {
             institute:"Green University of Bangladesh",
             degree:"Bsc in CSE",
-            duration:"2021-2024",
+            duration:"2022-2025",
         },
         {
             institute:"Dhaka Polytechnic Institute",
             degree:"Diploma in Computer Techmology",
-            duration:"2018-2021",
+            duration:"2019-2022",
         },
         {
             institute:"Cox's Bazar Polytechnic Institute",
             degree:"Diploma in Computer Techmology (1st & 2nd semester)",
-            duration:"2017-2018",
+            duration:"2018-2019",
         },
         {
             institute:"Nawdabash High School",
             degree:"SSC",
-            duration:"2016",
+            duration:"2017",
         },
     ]
 }
@@ -128,10 +119,18 @@ const skills={
     {
         icon:<FaReact />,
         name:"react.js",
+    }, 
+    {
+        icon:<FaVuejs />,
+        name:"vue.js",
     },
     {
         icon:<FaJs/>,
         name:"javascript",
+    },
+    {
+        icon:<SiTypescript />,
+        name:"typescript",
     },
     {
         icon:<SiNextdotjs/>,
@@ -144,6 +143,18 @@ const skills={
     {
         icon:<FaNodeJs/>,
         name:"node.js",
+    },
+    {
+        icon:<SiExpress />,
+        name:"express",
+    },
+    {
+        icon:<DiMongodb />,
+        name:"mongodb",
+    }, 
+    {
+        icon:<SiMongoose />,
+        name:"mongoose",
     },
     {
         icon:<FaFigma/>,
@@ -185,10 +196,10 @@ const Resume = () => {
                                             return(
                                                 <li key={index} className="bg-[#232329] h-[184px] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1">
                                                     <span className="text-accent">{item.duration}</span>
-                                                    <h3 className="text-xl max-w-[260px] min-h-[60px] text-center lg:text-left">{item.position}</h3>
+                                                    <h3 className="text-[14px] max-w-[260px] min-h-[60px] text-center lg:text-left">{item.position}</h3>
                                                     <div className="flex items-center gap-3">
                                                         <span className="w-[6px] h-[6px] rounded-full bg-accent"></span>
-                                                        <p className="text-white/60">{item.company}</p>
+                                                        <p className="text-white/60 text-[14px]">{item.company}</p>
                                                     </div>
                                                 </li>
                                             )
@@ -210,10 +221,10 @@ const Resume = () => {
                                             return(
                                                 <li key={index} className="bg-[#232329] h-[184px] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1">
                                                     <span className="text-accent">{item.duration}</span>
-                                                    <h3 className="text-xl max-w-[260px] min-h-[60px] text-center lg:text-left">{item.degree}</h3>
+                                                    <h3 className="text-[14px] max-w-[260px] min-h-[60px] text-center lg:text-left">{item.degree}</h3>
                                                     <div className="flex items-center gap-3">
                                                         <span className="w-[6px] h-[6px] rounded-full bg-accent"></span>
-                                                        <p className="text-white/60">{item.institute}</p>
+                                                        <p className="text-white/60 text-[14px]">{item.institute}</p>
                                                     </div>
                                                 </li>
                                             )

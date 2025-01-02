@@ -21,7 +21,7 @@ const Photo = (props) => {
             opacity: 1,
             transition: { delay: 2.4, duration: 0.4, ease: "easeInOut" },
           }}
-          className="w-[228px] h-[228px] xl:w-[288px] xl:h-[288px] xl:-mt-6 xl:ml-24 mix-blend-lighten absolute left-8 top-2 md:-left-16 md:top-9 scale-x-[-1]"
+          className="w-[228px] h-[228px] xl:w-[288px] xl:h-[288px] xl:-mt-6 xl:ml-24 mix-blend-lighten absolute left-8 top-2 md:-left-16 md:top-12 scale-x-[-1]"
         >
           <Image
             src={rashadul}
@@ -29,7 +29,7 @@ const Photo = (props) => {
             quality={100}
             fill
             alt="Rashadul Islam"
-            className="object-contain"
+            className="object-contain rounded-full"
           />
         </motion.div>
 

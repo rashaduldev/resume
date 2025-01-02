@@ -6,29 +6,30 @@ import { BsArrowDownRight } from "react-icons/bs";
 const services = [
   {
     num: "01",
-    title: "Web Development",
-    description: "Web Development expert designs, builds, and maintains websites, ensuring functionality, user experience, and performance. They possess strong coding skills and knowledge of web technologies.",
+    title: "Frontend Designer",
+    description: "Crafts visually appealing and responsive user interfaces using modern design principles and technologies like HTML, CSS, JavaScript, and frameworks such as React or Angular, ensuring optimal user experience.",
     href: ""
   },
   {
     num: "02",
-    title: "Wordpress Developer",
-    description: "WordPress Developer expert customizes and manages WordPress sites, creating themes and plugins, optimizing performance, and ensuring security while enhancing user experience and functionality.",
+    title: "Backend Developer",
+    description: "Specializes in building and maintaining the server-side logic, databases, and APIs of web applications, ensuring robust performance, security, and scalability using technologies like Node.js, Python, or PHP.",
     href: ""
   },
   {
     num: "03",
-    title: "App Development",
-    description: "React Native App Developer specializes in building cross-platform mobile applications, utilizing React Native to create high-performance, responsive apps for both iOS and Android devices.",
+    title: "WordPress Developer",
+    description: "Customizes WordPress themes and plugins, optimizes site performance, and ensures security while delivering tailored solutions for content management and e-commerce platforms.",
     href: ""
   },
   {
     num: "04",
-    title: "Full-Stack",
-    description: "Full Stack Developer designs and manages both frontend and backend of web applications, ensuring seamless integration, performance, and user experience using various technologies and frameworks.",
+    title: "Full-Stack Developer",
+    description: "Combines expertise in both frontend and backend development to deliver complete web solutions, integrating user-friendly interfaces with efficient server-side functionality for seamless applications.",
     href: ""
   },
 ];
+
 
 const Services = () => {
   return (
