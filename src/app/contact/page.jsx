@@ -98,7 +98,7 @@ const Contact = () => {
                         {/* select */}
                         <Select>
                             <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select a values" />
+                                <SelectValue placeholder="Select a option" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>

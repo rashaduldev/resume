@@ -1,7 +1,7 @@
 'use client'; // Ensure this is at the top to mark the component as a Client Component
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; // Use next/navigation for App Router (if you're using App Router)
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Nav from "./Nav";
 import { Button } from "./ui/button";
@@ -9,8 +9,8 @@ import MobileNav from "./MobileNav";
 import Image from "next/image";
 import logo from "../../public/assets/logo.png";
 import { Input } from "./ui/input";
-import { IoClose } from "react-icons/io5"; // Importing the close icon
-import { motion } from "framer-motion"; // Importing framer-motion
+import { IoClose } from "react-icons/io5"; 
+import { motion } from "framer-motion"; 
 import ExtraLogin from "./ExtraLogin";
 
 const Header = () => {
@@ -18,12 +18,12 @@ const Header = () => {
   const [isLogin, setIsLogin] = useState(true); // State to toggle between login and signup
   const [formData, setFormData] = useState({ email: "", password: "", confirmPassword: "" });
   const [isSuccess, setIsSuccess] = useState(false); // State for success modal
-
   const [isClient, setIsClient] = useState(false); // To check if it's client-side rendering
-  const router = useRouter(); // Using next/navigation for App Router (for Next.js 13+)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State for mobile menu visibility
+  const router = useRouter(); 
 
   useEffect(() => {
-    setIsClient(true); // Set isClient to true after the component mounts
+    setIsClient(true); 
   }, []);
 
   const toggleModal = () => {
@@ -41,19 +41,17 @@ const Header = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isLogin) {
-      // Handle login logic
       if (formData.email === "user@example.com" && formData.password === "password") {
         setIsSuccess(true);
         setTimeout(() => {
-          router.push("/dashboard"); // Redirect to dashboard after successful login
+          router.push("/dashboard"); 
         }, 2000);
       }
     } else {
-      // Handle signup logic
       if (formData.password === formData.confirmPassword) {
         setIsSuccess(true);
         setTimeout(() => {
-          switchToLogin(); // Switch to login after successful signup
+          switchToLogin(); 
         }, 2000);
       }
     }
@@ -80,7 +78,10 @@ const Header = () => {
 
           {/* Mobile Nav */}
           <div className="xl:hidden">
-            <MobileNav />
+            <MobileNav setIsMobileMenuOpen={setIsMobileMenuOpen} />
+            {isMobileMenuOpen && (
+              <Button onClick={toggleModal}>Log in</Button>
+            )}
           </div>
         </div>
       </header>
@@ -106,28 +107,23 @@ const Header = () => {
             {/* Form Toggle Buttons */}
             <motion.div
               className="flex justify-center mb-4 mx-[70px] bg-accent rounded-full overflow-hidden relative"
-              initial={{ opacity: 0, x: isLogin ? 0 : "-100%" }} // Initial position for login button
-              animate={{ opacity: 1, x: 0 }} // Animate to 0 position
-              exit={{ opacity: 0, x: isLogin ? "100%" : 0 }} // Exit animation
+              initial={{ opacity: 0, x: isLogin ? 0 : "-100%" }} 
+              animate={{ opacity: 1, x: 0 }} 
+              exit={{ opacity: 0, x: isLogin ? "100%" : 0 }} 
               transition={{ duration: 0.5 }}
             >
-              {/* Background Indicator */}
               <motion.div
                 className="absolute inset-0 bg-accent rounded-full"
-                initial={{ x: isLogin ? 0 : "100%" }} // Slide from right to left
-                animate={{ x: isLogin ? 0 : "-100%" }} // Slide to the left when switching
+                initial={{ x: isLogin ? 0 : "100%" }} 
+                animate={{ x: isLogin ? 0 : "-100%" }} 
                 transition={{ duration: 0.3 }}
               />
-
-              {/* Login Button */}
               <Button
                 onClick={switchToLogin}
                 className={`relative z-10 py-2 px-10 text-sm font-semibold text-white transition-all duration-300 ${isLogin ? "bg-gray-600 pb-1" : "text-black"}`}
               >
                 Log In
               </Button>
-
-              {/* Sign Up Button */}
               <Button
                 onClick={switchToSignup}
                 className={`relative z-10 py-2 px-10 text-sm font-semibold text-white transition-all duration-300 ${!isLogin ? "bg-gray-600" : "bg-accent text-black"}`}
@@ -191,8 +187,7 @@ const Header = () => {
                       Log In
                     </Button>
                   </form>
-                  {/* Extra Login */}
-                 <ExtraLogin/>
+                  <ExtraLogin />
                   <div className="text-center mt-4">
                     <p className="text-sm">
                       Don’t have an account?{" "}
@@ -251,7 +246,7 @@ const Header = () => {
                       Sign Up
                     </Button>
                   </form>
-                  <ExtraLogin/>
+                  <ExtraLogin />
                   <div className="text-center mt-4">
                     <p className="text-sm">
                       Already have an account?{" "}
