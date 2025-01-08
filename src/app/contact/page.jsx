@@ -22,7 +22,7 @@ const info=[
     {
         icon:<FaMapMarkerAlt />,
         title:"Address",
-        description:"Mirpur-12 D Block,Dhaka Bangladesh"
+        description:"Mirpur-12,Dhaka Bangladesh"
     },
 ]
 
