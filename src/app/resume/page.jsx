@@ -56,7 +56,7 @@ const exprience={
         {
             company:"UySystems ltd",
             position:"Front-end Developer",
-            duration:"2024-2024",
+            duration:"2024-2025",
         },
         {
             company:"UySystems ltd",
@@ -71,7 +71,7 @@ const exprience={
         {
             company:"IIST",
             position:"Web Development Level-4 (Cource)",
-            duration:"2020-2020",
+            duration:"2021",
         },
     ]
 }

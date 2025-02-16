@@ -25,8 +25,8 @@ const Home = (props) => {
               <h1 className='h1 mb-6'>
                 hello I'm <br /> <span className='text-accent'>Rashadul Islam</span>
               </h1> 
-              <p className="max-w-[500px] mb-9 text-white/80">
-              I’m a Junior Fullstack Web Developer who is passionate about making error-free websites with 100% client satisfaction. I have a passion for learning new technologies.
+              <p className="max-w-[510px] mb-9 text-white/80">
+              I’m a Junior Frontend Web Developer passionate about creating error-free websites with a focus on 100% client satisfaction. I love learning new technologies to stay ahead in the field.
               </p>
                 {/* btn and socials */}
                 <div className="flex flex-col xl:flex-row items-center gap-8">
