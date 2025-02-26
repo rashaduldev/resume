@@ -29,7 +29,9 @@ export default function RootLayout({ children }) {
         <Header />
         <StairTransition />
         <PageTransition>
+          <div className="mb-10">
           {children}
+          </div>
         </PageTransition>
       </body>
     </html>

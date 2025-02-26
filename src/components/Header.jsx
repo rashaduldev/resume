@@ -15,11 +15,11 @@ import ExtraLogin from "./ExtraLogin";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(true); // State to toggle between login and signup
+  const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({ email: "", password: "", confirmPassword: "" });
-  const [isSuccess, setIsSuccess] = useState(false); // State for success modal
-  const [isClient, setIsClient] = useState(false); // To check if it's client-side rendering
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State for mobile menu visibility
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter(); 
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="py-6 xl:py-8 text-white bg-primary">
+      <header className="pb-6 xl:pb-8 text-white bg-primary">
         <div className="container mx-auto flex justify-between items-center px-4">
           {/* Logo */}
           <Link href="/">
