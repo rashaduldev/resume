@@ -41,21 +41,27 @@ const Header = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isLogin) {
-      if (formData.email === "user@example.com" && formData.password === "password") {
+      if (formData.email === "admin@admin.com" && formData.password === "admin") {
         setIsSuccess(true);
         setTimeout(() => {
-          router.push("/dashboard"); 
+          router.push("/dashboard");
         }, 2000);
+      } else {
+        alert("Invalid email or password!");
       }
     } else {
       if (formData.password === formData.confirmPassword) {
         setIsSuccess(true);
         setTimeout(() => {
-          switchToLogin(); 
+          setIsModalOpen(false);
+          switchToLogin();
         }, 2000);
+      } else {
+        alert("Passwords do not match!");
       }
     }
   };
+  
 
   return (
     <>
@@ -172,13 +178,13 @@ const Header = () => {
                       />
                     </div>
                     <div className="flex justify-between items-center mb-4">
-                      <label className="flex items-center text-sm">
+                      {/* <label className="flex items-center text-sm">
                         <Input
                           type="checkbox"
                           className="mr-2 rounded border-gray-300 focus:ring-primary"
                         />
                         Remember Me
-                      </label>
+                      </label> */}
                       <Link href="" className="text-sm text-accent">
                         Forgot Password?
                       </Link>

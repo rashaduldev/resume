@@ -2,7 +2,7 @@ import React from 'react';
 
 const DashboardPage = () => {
     return (
-        <div>
+        <div className='container mx-auto'>
             This is Dashboard page
         </div>
     );
