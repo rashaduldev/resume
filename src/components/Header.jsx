@@ -1,4 +1,4 @@
-'use client'; // Ensure this is at the top to mark the component as a Client Component
+'use client';
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -12,8 +12,9 @@ import { Input } from "./ui/input";
 import { IoClose } from "react-icons/io5"; 
 import { motion } from "framer-motion"; 
 import ExtraLogin from "./ExtraLogin";
+import { signOut } from "next-auth/react";
 
-const Header = () => {
+const Header = ({session}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({ email: "", password: "", confirmPassword: "" });
@@ -39,6 +40,7 @@ const Header = () => {
   };
 
   const handleSubmit = (e) => {
+    // const session=await getServerSession(authOptions);
     e.preventDefault();
     if (isLogin) {
       if (formData.email === "admin@admin.com" && formData.password === "admin") {
@@ -77,11 +79,44 @@ const Header = () => {
           </Link>
 
           {/* Desktop Nav and Login Button */}
-          <div className="hidden xl:flex items-center gap-8">
-            <Nav />
-            <Button onClick={toggleModal}>Log in</Button>
-          </div>
+          <div className="flex items-center gap-8">
+          <Nav session={session} />
 
+          {session?.user ? (
+            <div className="relative">
+              {/* Avatar and Dropdown */}
+              <Image
+                src={session?.user?.image}
+                alt="User Avatar"
+                width={40}
+                height={40}
+                className="rounded-full cursor-pointer transition-transform transform hover:scale-105"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              />
+              
+              {isMobileMenuOpen && (
+                <div className="absolute z-10 top-12 right-0 bg-white text-black p-4 shadow-lg rounded-md w-56 max-w-xs mt-2 transition-all ease-in-out duration-300">
+                  <p className="font-semibold text-lg">{session?.user?.name}</p>
+                  <p className="text-sm text-gray-600">{session?.user?.email}</p>
+
+                  <Button 
+                    onClick={()=>signOut()} 
+                    className="w-full mt-4 py-2 text-sm font-medium text-black bg-accent rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    Log Out
+                  </Button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Button
+              onClick={toggleModal}
+              className="py-2 px-6 text-sm font-medium text-black bg-accent rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              Log In
+            </Button>
+          )}
+        </div>
           {/* Mobile Nav */}
           <div className="xl:hidden">
             <MobileNav setIsMobileMenuOpen={setIsMobileMenuOpen} />

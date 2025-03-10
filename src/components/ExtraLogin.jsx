@@ -1,25 +1,27 @@
-import Link from "next/link";
+"use client"
+import { signIn } from "next-auth/react";
 import { FaGithub, FaLinkedinIn, FaGoogle, FaFacebook } from "react-icons/fa";
 
 const socials = [
-{ icon: <FaGoogle /> },
-  { icon: <FaGithub /> },
-  { icon: <FaFacebook /> },
-  { icon: <FaLinkedinIn /> },
+  { icon: <FaGoogle />, provider: "google" },
+  { icon: <FaGithub />, provider: "github" },
+  { icon: <FaFacebook />, provider: "facebook" },
+  { icon: <FaLinkedinIn />, provider: "linkedin" },
 ];
 
 const ExtraLogin = () => {
   return (
     <div className="flex flex-row mx-auto justify-center gap-5 my-5 text-xl">
       {socials.map((item, index) => (
-        <Link
+        <button
           key={index}
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
+          onClick={() => signIn(item.provider,{
+            callbackUrl:"http://localhost:3000/dashboard"
+          })}
+          className="p-2 rounded-full hover:bg-accent hover:text-black transition"
         >
           {item.icon}
-        </Link>
+        </button>
       ))}
     </div>
   );
