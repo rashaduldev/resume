@@ -79,7 +79,7 @@ const Header = ({session}) => {
           </Link>
 
           {/* Desktop Nav and Login Button */}
-          <div className="flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-8">
           <Nav session={session} />
 
           {session?.user ? (
@@ -119,7 +119,7 @@ const Header = ({session}) => {
         </div>
           {/* Mobile Nav */}
           <div className="xl:hidden">
-            <MobileNav setIsMobileMenuOpen={setIsMobileMenuOpen} />
+            <MobileNav session={session} setIsMobileMenuOpen={setIsMobileMenuOpen} />
             {isMobileMenuOpen && (
               <Button onClick={toggleModal}>Log in</Button>
             )}

@@ -7,18 +7,28 @@ import { Button } from "./ui/button";
 import { IoClose } from "react-icons/io5"; 
 import { motion } from "framer-motion"; 
 import { useState } from "react";
+import Image from "next/image";
 import { Input } from "./ui/input";
 import ExtraLogin from "./ExtraLogin";
+import { signOut } from "next-auth/react";
 
-const links = [
+const NormalLinks = [
   { name: "home", path: "/" },
   { name: "services", path: "/services" },
   { name: "resume", path: "/resume" },
   { name: "work", path: "/work" },
   { name: "contact", path: "/contact" },
+  { name: "dashboard", path: "/dashboard" },
+];
+const DashboardLinks = [
+  { name: "Dashboard", path: "/dashboard" },
+  { name: "Profile", path: "/services" },
+  { name: "Editprofile", path: "/resume" },
+  { name: "Projects", path: "/work" },
+  { name: "Contact", path: "/contact" },
 ];
 
-const MobileNav = () => {
+const MobileNav = ({session}) => {  
   const pathname = usePathname();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
@@ -36,16 +46,32 @@ const MobileNav = () => {
       console.log("Signing up...");
     }
   };
+  const isDashboard = pathname.startsWith("/dashboard");
+  const links = isDashboard ? DashboardLinks : NormalLinks;
 
   return (
     <>
-      <Sheet>
+     <Sheet>
         <SheetTrigger className="flex justify-center items-center">
           <CiMenuFries className="text-[32px] text-accent" />
         </SheetTrigger>
-      
+
         <SheetContent className="flex flex-col items-center gap-6 p-6">
-           <h1 className="text-4xl font-semibold mt-32">Rashadul <span className="text-accent">.</span></h1>
+          {session?.user?.image ? (
+            <Image
+              src={session.user.image}
+              alt="User Avatar"
+              width={64}
+              height={64}
+              className="w-20 h-20 rounded-full mt-32"
+            />
+          ) : (
+            <h1 className="text-2xl font-semibold mt-32">
+              {`{dummy avatar}`} <span className="text-accent">.</span>
+            </h1>
+          )}
+
+          {/* ✅ Render dynamic links based on route */}
           {links.map((link) => (
             <Link
               key={link.path}
@@ -55,9 +81,16 @@ const MobileNav = () => {
               {link.name}
             </Link>
           ))}
-          <Button onClick={toggleModal} className="w-full">
-            Log in
-          </Button>
+
+          {session?.user ? (
+            <Button onClick={() => signOut()} className="w-full">
+              Log out
+            </Button>
+          ) : (
+            <Button onClick={toggleModal} className="w-full">
+              Log in
+            </Button>
+          )}
         </SheetContent>
       </Sheet>
 

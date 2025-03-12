@@ -1,4 +1,3 @@
-// components/layouts/DashboardLayout.js
 "use client"
 
 import EditProfile from "@/components/dashboard/EditProfile";
@@ -12,7 +11,9 @@ const DashboardLayout = ({ children }) => {
     return (
         <div className="flex h-screen bg-primary container mx-auto">
         {/* Sidebar */}
+        <div className="hidden md:flex">
         <Sidebar setActiveTab={setActiveTab} />
+        </div>
   
         {/* Main content */}
         <div className="flex-1 p-6 overflow-y-auto">
