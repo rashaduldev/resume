@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -8,126 +8,243 @@ import { Button } from "./ui/button";
 import MobileNav from "./MobileNav";
 import Image from "next/image";
 import logo from "../../public/assets/logo.png";
-import { Input } from "./ui/input";
-import { IoClose } from "react-icons/io5"; 
-import { motion } from "framer-motion"; 
+import { IoClose } from "react-icons/io5";
+import { motion } from "framer-motion";
 import ExtraLogin from "./ExtraLogin";
 import { signOut } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { registerUser } from "@/utils/Register";
+import { loginUser } from "@/utils/Login";
+import { forgotPassword } from "@/utils/ForgotPassword";
+import { Input } from "./ui/input";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import Swal from "sweetalert2";
+import { jwtDecode } from "jwt-decode";
+import duyymimg from "../../public/assets/dummy-user-profile.webp"
 
-const Header = ({session}) => {
+// Validation Schemas
+const loginSchema = yup.object().shape({
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+});
+
+const signupSchema = yup.object().shape({
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords must match")
+    .required("Confirm Password is required"),
+});
+
+const forgotPasswordSchema = yup.object().shape({
+  email: yup.string().email("Invalid email").required("Email is required"),
+});
+
+const Header = ({ session }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({ email: "", password: "", confirmPassword: "" });
-  const [isSuccess, setIsSuccess] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const router = useRouter(); 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState(null);
+  const router = useRouter();
 
+  // Check login status and decode token on mount
   useEffect(() => {
-    setIsClient(true); 
-  }, []);
-
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-
-  const switchToSignup = () => {
-    setIsLogin(false);
-  };
-
-  const switchToLogin = () => {
-    setIsLogin(true);
-  };
-
-  const handleSubmit = (e) => {
-    // const session=await getServerSession(authOptions);
-    e.preventDefault();
-    if (isLogin) {
-      if (formData.email === "admin@admin.com" && formData.password === "admin") {
-        setIsSuccess(true);
-        setTimeout(() => {
-          router.push("/dashboard");
-        }, 2000);
-      } else {
-        alert("Invalid email or password!");
+    setIsClient(true);
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setUserEmail(decoded.email);
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+        localStorage.removeItem("token");
       }
+    } else if (session?.user) {
+      setIsLoggedIn(true);
+      setUserEmail(session.user.email);
+    }
+  }, [session]);
+
+  // Logout Handler
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    setUserEmail(null);
+    setIsMobileMenuOpen(false);
+
+    if (session?.user) {
+      signOut({ callbackUrl: "/" });
     } else {
-      if (formData.password === formData.confirmPassword) {
-        setIsSuccess(true);
-        setTimeout(() => {
-          setIsModalOpen(false);
-          switchToLogin();
-        }, 2000);
-      } else {
-        alert("Passwords do not match!");
-      }
+      Swal.fire({
+        icon: "success",
+        title: "Logged Out",
+        text: "You have been logged out successfully!",
+        timer: 1500,
+        showConfirmButton: false,
+      }).then(() => {
+        router.push("/");
+      });
     }
   };
-  
+
+  // Form Submit Handler
+  const onSubmit = async (data) => {
+    try {
+      if (isForgotPassword) {
+        const res = await forgotPassword({ email: data.email });
+        if (res.message) {
+          Swal.fire({
+            icon: "success",
+            title: "Reset Link Sent",
+            text: res.message,
+            timer: 2000,
+            showConfirmButton: false,
+          }).then(() => {
+            setIsForgotPassword(false);
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Failed",
+            text: res.message || "Something went wrong",
+          });
+        }
+      } else if (isLogin) {
+        const res = await loginUser({ email: data.email, password: data.password });
+        if (res.token) {
+          localStorage.setItem("token", res.token);
+          const decoded = jwtDecode(res.token);
+          setUserEmail(decoded.email);
+          setIsLoggedIn(true); // Update state immediately
+          Swal.fire({
+            icon: "success",
+            title: "Login Successful",
+            text: "You have been logged in!",
+            timer: 1500,
+            showConfirmButton: false,
+          }).then(() => {
+            setIsModalOpen(false);
+            router.push("/dashboard");
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Login Failed",
+            text: res.message || "Invalid credentials",
+          });
+        }
+      } else {
+        const res = await registerUser({ email: data.email, password: data.password });
+        if (res.token) {
+          const decoded = jwtDecode(res.token);
+          setUserEmail(decoded.email);
+          setIsLoggedIn(true); // Update state immediately (optional: could wait for login)
+          Swal.fire({
+            icon: "success",
+            title: "Signup Successful",
+            text: "Account created! Please log in.",
+            timer: 1500,
+            showConfirmButton: false,
+          }).then(() => {
+            setIsLogin(true);
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Signup Failed",
+            text: res.message || "Something went wrong",
+          });
+        }
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An unexpected error occurred",
+      });
+    } finally {
+      reset();
+    }
+  };
+
+  // Form Handling
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(
+      isForgotPassword ? forgotPasswordSchema : isLogin ? loginSchema : signupSchema
+    ),
+  });
 
   return (
     <>
       <header className="pb-6 xl:pb-8 text-white bg-primary">
         <div className="container mx-auto flex justify-between items-center px-4">
-          {/* Logo */}
           <Link href="/">
             <Image
               className="w-32 h-32 xl:w-40 xl:h-40"
               src={logo}
               alt="Website Logo"
+              priority
             />
           </Link>
 
-          {/* Desktop Nav and Login Button */}
           <div className="hidden md:flex items-center gap-8">
-          <Nav session={session} />
+            <Nav session={session} isLoggedIn={isLoggedIn} userEmail={userEmail} /> {/* Pass isLoggedIn and userEmail */}
+            {isLoggedIn || session?.user ? (
+              <div className="relative">
+                <Image
+                  src={session?.user?.image || duyymimg}
+                  alt="User Image"
+                  width={40}
+                  height={40}
+                  className="rounded-full cursor-pointer transition-transform transform hover:scale-105"
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                />
+                {isMobileMenuOpen && (
+                  <div className="absolute z-10 top-12 right-0 bg-white text-black p-4 shadow-lg rounded-md w-56 max-w-xs mt-2">
+                    <p className="font-semibold text-lg">{session?.user?.name || "User"}</p>
+                    <p className="text-sm text-gray-600">{userEmail || session?.user?.email || "Email not available"}</p>
+                    <Button
+                      onClick={handleLogout}
+                      className="w-full mt-4 py-2 text-sm font-medium text-black bg-accent rounded-md hover:bg-primary-dark"
+                    >
+                      Log Out
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Button
+                onClick={() => setIsModalOpen(true)}
+                className="py-2 px-6 text-sm font-medium text-black bg-accent rounded-md hover:bg-primary-dark"
+              >
+                Log In
+              </Button>
+            )}
+          </div>
 
-          {session?.user ? (
-            <div className="relative">
-              {/* Avatar and Dropdown */}
-              <Image
-                src={session?.user?.image}
-                alt="User Avatar"
-                width={40}
-                height={40}
-                className="rounded-full cursor-pointer transition-transform transform hover:scale-105"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              />
-              
-              {isMobileMenuOpen && (
-                <div className="absolute z-10 top-12 right-0 bg-white text-black p-4 shadow-lg rounded-md w-56 max-w-xs mt-2 transition-all ease-in-out duration-300">
-                  <p className="font-semibold text-lg">{session?.user?.name}</p>
-                  <p className="text-sm text-gray-600">{session?.user?.email}</p>
-
-                  <Button 
-                    onClick={()=>signOut()} 
-                    className="w-full mt-4 py-2 text-sm font-medium text-black bg-accent rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
-                    Log Out
-                  </Button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <Button
-              onClick={toggleModal}
-              className="py-2 px-6 text-sm font-medium text-black bg-accent rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              Log In
-            </Button>
-          )}
-        </div>
-          {/* Mobile Nav */}
           <div className="xl:hidden">
             <MobileNav session={session} setIsMobileMenuOpen={setIsMobileMenuOpen} />
             {isMobileMenuOpen && (
-              <Button onClick={toggleModal}>Log in</Button>
+              <Button onClick={() => setIsModalOpen(true)}>Log in</Button>
             )}
           </div>
         </div>
       </header>
 
-      {/* Login/Signup Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <motion.div
@@ -137,168 +254,109 @@ const Header = ({session}) => {
             exit={{ opacity: 0, y: 100 }}
             transition={{ duration: 0.5 }}
           >
-            {/* Close Icon */}
             <button
               className="absolute top-4 right-4 text-white hover:text-gray-400"
-              onClick={toggleModal}
+              onClick={() => setIsModalOpen(false)}
             >
-              <IoClose size={24} /> {/* Close icon */}
+              <IoClose size={24} />
             </button>
 
-            {/* Form Toggle Buttons */}
-            <motion.div
-              className="flex justify-center mb-4 mx-[70px] bg-accent rounded-full overflow-hidden relative"
-              initial={{ opacity: 0, x: isLogin ? 0 : "-100%" }} 
-              animate={{ opacity: 1, x: 0 }} 
-              exit={{ opacity: 0, x: isLogin ? "100%" : 0 }} 
-              transition={{ duration: 0.5 }}
-            >
-              <motion.div
-                className="absolute inset-0 bg-accent rounded-full"
-                initial={{ x: isLogin ? 0 : "100%" }} 
-                animate={{ x: isLogin ? 0 : "-100%" }} 
-                transition={{ duration: 0.3 }}
-              />
-              <Button
-                onClick={switchToLogin}
-                className={`relative z-10 py-2 px-10 text-sm font-semibold text-white transition-all duration-300 ${isLogin ? "bg-gray-600 pb-1" : "text-black"}`}
-              >
-                Log In
-              </Button>
-              <Button
-                onClick={switchToSignup}
-                className={`relative z-10 py-2 px-10 text-sm font-semibold text-white transition-all duration-300 ${!isLogin ? "bg-gray-600" : "bg-accent text-black"}`}
-              >
-                Sign Up
-              </Button>
-            </motion.div>
+            {!isForgotPassword && (
+              <div className="flex justify-center mb-4 mx-[70px] bg-accent rounded-full overflow-hidden relative">
+                <Button
+                  onClick={() => setIsLogin(true)}
+                  className={`py-2 px-10 text-sm font-semibold ${isLogin ? "bg-gray-600" : "text-black"}`}
+                >
+                  Log In
+                </Button>
+                <Button
+                  onClick={() => setIsLogin(false)}
+                  className={`py-2 px-10 text-sm font-semibold ${!isLogin ? "bg-gray-600" : "text-black"}`}
+                >
+                  Sign Up
+                </Button>
+              </div>
+            )}
 
-            {/* Form Content */}
-            <motion.div
-              key={isLogin ? "login" : "signup"}
-              initial={{ x: isLogin ? 0 : "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: isLogin ? "-100%" : 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              {isLogin ? (
-                <div>
-                  <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                      <label htmlFor="email" className="block text-sm font-medium">
-                        Email Address
-                      </label>
-                      <Input
-                        type="email"
-                        id="email"
-                        className="w-full mt-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
-                        placeholder="Enter your email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        required
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label htmlFor="password" className="block text-sm font-medium">
-                        Password
-                      </label>
-                      <Input
-                        type="password"
-                        id="password"
-                        className="w-full mt-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
-                        placeholder="Enter your password"
-                        value={formData.password}
-                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        required
-                      />
-                    </div>
-                    <div className="flex justify-between items-center mb-4">
-                      {/* <label className="flex items-center text-sm">
-                        <Input
-                          type="checkbox"
-                          className="mr-2 rounded border-gray-300 focus:ring-primary"
-                        />
-                        Remember Me
-                      </label> */}
-                      <Link href="" className="text-sm text-accent">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="mb-4">
+                <label className="block text-sm font-medium">Email Address</label>
+                <Input
+                  {...register("email")}
+                  className="w-full mt-1 p-2 border rounded text-black"
+                  placeholder="Enter your email"
+                />
+                <p className="text-red-500 text-xs">{errors.email?.message}</p>
+              </div>
+
+              {!isForgotPassword && (
+                <>
+                  <div className="mb-4 relative">
+                    <label className="block text-sm font-medium">Password</label>
+                    <Input
+                      {...register("password")}
+                      type={showPassword ? "text" : "password"}
+                      className="w-full mt-1 p-2 border rounded text-black"
+                      placeholder="Enter your password"
+                    />
+                    <span
+                      className="absolute right-3 top-9 cursor-pointer text-gray-600"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+                    </span>
+                    <p className="text-red-500 text-xs">{errors.password?.message}</p>
+                  </div>
+                  {isLogin && (
+                    <div className="mb-4 text-right">
+                      <button
+                        type="button"
+                        onClick={() => setIsForgotPassword(true)}
+                        className="text-sm text-accent hover:underline"
+                      >
                         Forgot Password?
-                      </Link>
+                      </button>
                     </div>
-                    <Button type="submit" className="w-full">
-                      Log In
-                    </Button>
-                  </form>
-                  <ExtraLogin />
-                  <div className="text-center mt-4">
-                    <p className="text-sm">
-                      Don’t have an account?{" "}
-                      <a onClick={switchToSignup} className="text-accent cursor-pointer font-medium">
-                        Sign Up
-                      </a>
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                      <label htmlFor="email" className="block text-sm font-medium">
-                        Email Address
-                      </label>
+                  )}
+                  {!isLogin && (
+                    <div className="mb-4 relative">
+                      <label className="block text-sm font-medium">Confirm Password</label>
                       <Input
-                        type="email"
-                        id="email"
-                        className="w-full mt-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
-                        placeholder="Enter your email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        required
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label htmlFor="password" className="block text-sm font-medium">
-                        Password
-                      </label>
-                      <Input
-                        type="password"
-                        id="password"
-                        className="w-full mt-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
-                        placeholder="Enter your password"
-                        value={formData.password}
-                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        required
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label htmlFor="confirm-password" className="block text-sm font-medium">
-                        Confirm Password
-                      </label>
-                      <Input
-                        type="password"
-                        id="confirm-password"
-                        className="w-full mt-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                        {...register("confirmPassword")}
+                        type={showConfirmPassword ? "text" : "password"}
+                        className="w-full mt-1 p-2 border rounded text-black"
                         placeholder="Confirm your password"
-                        value={formData.confirmPassword}
-                        onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                        required
                       />
+                      <span
+                        className="absolute right-3 top-9 cursor-pointer text-gray-600"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      >
+                        {showConfirmPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+                      </span>
+                      <p className="text-red-500 text-xs">{errors.confirmPassword?.message}</p>
                     </div>
-                    <Button type="submit" className="w-full">
-                      Sign Up
-                    </Button>
-                  </form>
-                  <ExtraLogin />
-                  <div className="text-center mt-4">
-                    <p className="text-sm">
-                      Already have an account?{" "}
-                      <a onClick={switchToLogin} className="text-accent cursor-pointer font-medium">
-                        Log In
-                      </a>
-                    </p>
-                  </div>
+                  )}
+                </>
+              )}
+
+              <Button type="submit" className="w-full">
+                {isForgotPassword ? "Send Reset Link" : isLogin ? "Log In" : "Sign Up"}
+              </Button>
+
+              {isForgotPassword && (
+                <div className="mt-4 text-center">
+                  <button
+                    type="button"
+                    onClick={() => setIsForgotPassword(false)}
+                    className="text-sm text-accent hover:underline"
+                  >
+                    Back to Login
+                  </button>
                 </div>
               )}
-            </motion.div>
+            </form>
+
+            {!isForgotPassword && <ExtraLogin />}
           </motion.div>
         </div>
       )}
